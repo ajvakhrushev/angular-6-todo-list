@@ -1,0 +1,92 @@
+<form [formGroup]="formGroup">
+  <div class="detail-column">
+    <mat-form-field>
+      <input
+        name="cover"
+        matInput
+        placeholder="{{'detailCoverPlaceholder' | translate}}"
+      >
+    </mat-form-field>
+    <div class="detail-cover">
+      <img src="{{coverControl.value}}" alt="{{nameControl.value}}">
+    </div>
+  </div>
+  <div class="detail-column">
+    <mat-form-field>
+      <input
+        name="name"
+        matInput
+        placeholder="{{'detailNamePlaceholder' | translate}}"
+      >
+    </mat-form-field>
+    <form [formGroup]="genreForm">
+      <mat-form-field>
+        <mat-select
+          name="name"
+          placeholder="{{'listFilterGenrePlaceholder' | translate}}"
+        >
+          <mat-option
+            *ngFor="let next of genres"
+            [value]="next.value"
+          >
+            {{next.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select
+          name="category"
+          placeholder="{{'listFilterCategoryPlaceholder' | translate}}"
+        >
+          <mat-option
+            *ngFor="let next of categories"
+            [value]="next.value"
+          >
+            {{next.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <form [formGroup]="authorForm">
+      <mat-form-field>
+        <input
+          name="name"
+          matInput
+          placeholder="{{'detailAuthorNamePlaceholder' | translate}}"
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          name="avatar"
+          matInput
+          placeholder="{{'detailAuthorAvatarPlaceholder' | translate}}"
+        >
+      </mat-form-field>
+    </form>
+    <mat-form-field>
+      <input
+        name="published"
+        matInput
+        placeholder="{{'detailPublishedPlaceholder' | translate}}"
+        [matDatepicker]="publishedDate"
+        [max]="maxDate"
+      >
+      <mat-datepicker-toggle matSuffix [for]="publishedDate"></mat-datepicker-toggle>
+      <mat-datepicker #publishedDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        name="description"
+        matInput
+        placeholder="{{'detailDescriptionPlaceholder' | translate}}"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        name="introduction"
+        matInput
+        placeholder="{{'detailIntroductionPlaceholder' | translate}}"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</form>

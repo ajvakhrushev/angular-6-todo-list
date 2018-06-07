@@ -1,1 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.list-table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.list-table td.mat-cell,
+.list-table td.mat-footer-cell,
+.list-table th.mat-header-cell {
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: middle; 
+}
+
+.list-table td.mat-cell.utility {
+  width: 120px;
+}
+
+.list-table td.mat-cell.author-name {
+  width: 160px;
+}
+
+.list-table td span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.list-table td.mat-cell:first-child,
+.list-table td.mat-footer-cell:first-child,
+.list-table th.mat-header-cell:first-child,
+.list-table td.mat-cell:last-child,
+.list-table td.mat-footer-cell:last-child,
+.list-table th.mat-header-cell:last-child {
+  width: 24px;
+}
+
+.list-table .list-table-cell-likes-number {
+  margin: 0 0 0 10px;
+}
+
+app-list-filter {
+  display: inline-block;
+  vertical-align: top;
+}
+
+app-list-filter mat-form-field {
+  margin: 0 10px;
+}
+
+app-list-page .list-create-button {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px 0 0;
+}
+
+app-list-page .list-create-button .mat-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  color: rgba(0,0,0,.87);
+}
+
+@media screen and (max-width: 1024px) {
+  .list-table td.mat-cell.utility {
+    width: 80px;
+  }
+
+  .list-table td.mat-cell.author-name {
+    width: 120px;
+  }
+}

@@ -1,0 +1,35 @@
+<form [formGroup]="formGroup">
+  <mat-form-field>
+    <input
+      formControlName="search"
+      matInput
+      placeholder="{{'listFilterSearchPlaceholder' | translate}}"
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      formControlName="genre"
+      placeholder="{{'listFilterGenrePlaceholder' | translate}}"
+    >
+      <mat-option
+        *ngFor="let next of genres"
+        [value]="next.value"
+      >
+        {{next.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select
+      formControlName="category"
+      placeholder="{{'listFilterCategoryPlaceholder' | translate}}"
+    >
+      <mat-option
+        *ngFor="let next of categories"
+        [value]="next.value"
+      >
+        {{next.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

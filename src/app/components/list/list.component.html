@@ -1,0 +1,82 @@
+<div class="list-container mat-elevation-z8">
+  <div
+    *ngIf="isLoadingResults"
+    class="list-loading-shade"
+  >
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="list-table-container">
+    <table
+      mat-table
+      [dataSource]="data"
+      class="list-table"
+      matSort
+      matSortActive="published"
+      matSortDisableClear
+      matSortDirection="asc"
+    >
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" (click)="updateItem(row.id)">
+          <span>
+            <mat-icon>edit</mat-icon>
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          {{ 'tableCellName' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="author.name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          {{ 'tableCellAuthorName' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="author-name">{{ row.author.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="genre.name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'tableCellGenreName' | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="utility">{{ row.genre.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="genre.category">
+        <th mat-header-cell *matHeaderCellDef>
+          {{ 'tableCellGenreCategory' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="utility">{{ row.genre.category }}</td>
+      </ng-container>
+      <ng-container matColumnDef="published">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          {{ 'tableCellPublished' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="utility">{{ row.published | date }}</td>
+      </ng-container>
+      <ng-container matColumnDef="likes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          {{ 'tableCellLikes' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="utility">
+          <span>
+            <mat-icon>thumb_up</mat-icon>
+            <span class="list-table-cell-likes-number">{{ row.likes }}</span>
+          </span>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row" (click)="deleteItem(row.id)">
+          <span>
+            <mat-icon>delete</mat-icon>
+          </span>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator
+    showFirstLastButtons
+    [length]="resultsLength"
+    [pageSizeOptions]="pageSizeOptions"
+  ></mat-paginator>
+</div>
