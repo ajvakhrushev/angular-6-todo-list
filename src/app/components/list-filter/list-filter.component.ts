@@ -31,7 +31,6 @@ export class ListFilterComponent implements OnInit, OnDestroy {
     });
 
     this.formGroup.valueChanges.subscribe((value) => {
-      console.log(this.formGroup.value);
       this.listService.$filter.next(this.formGroup.value);
     })
 

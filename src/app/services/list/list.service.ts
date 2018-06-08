@@ -88,7 +88,7 @@ export class ListService {
                  const nextList = (list || []).filter(this.onFilterData(filter));
 
                  nextList.sort(this.onSortData(order));
-console.log(nextList);
+
                  return {
                    list: nextList.slice(offset, offset + pageSize),
                    size: nextList.length
