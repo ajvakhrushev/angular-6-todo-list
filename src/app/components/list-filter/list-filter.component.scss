@@ -1,0 +1,16 @@
+@import 'src/assets/styles/_variables';
+@import 'src/assets/styles/_mixins';
+
+:host {
+  display: inline-block;
+  vertical-align: top;
+
+  mat-form-field {
+    margin: 0 10px;
+
+    @media ($maxWidthMD) {
+      margin: 0 10%;
+      width: 80%;
+    }
+  }
+}

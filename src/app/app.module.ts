@@ -24,7 +24,6 @@ import { AppComponent } from 'src/app/app.component';
 import {
   PageNotFoundComponent,
   HeaderComponent,
-  FooterComponent,
   ListComponent,
   ListItemComponent,
   ListFilterComponent,
@@ -56,7 +55,6 @@ const appRoutes: Routes = [
     AppComponent,
     PageNotFoundComponent,
     HeaderComponent,
-    FooterComponent,
     ListComponent,
     ListItemComponent,
     ListFilterComponent,

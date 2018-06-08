@@ -1,0 +1,21 @@
+@import 'src/assets/styles/_variables';
+@import 'src/assets/styles/_mixins';
+
+.list-create-button {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px 0 0;
+
+  @media ($maxWidthMD) {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .mat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px;
+    line-height: 48px;
+    color: rgba(0,0,0,.87);
+  }
+}

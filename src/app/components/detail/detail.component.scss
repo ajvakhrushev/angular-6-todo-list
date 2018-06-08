@@ -1,0 +1,98 @@
+@import 'src/assets/styles/_variables';
+@import 'src/assets/styles/_mixins';
+
+:host {
+  mat-form-field {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    width: 320px;
+    min-width: 320px;
+
+    &.textarea-field {
+      width: auto;
+      max-width: 640px;
+    }
+
+    @media ($maxWidthLS) {
+      width: 100%;
+    }
+  }
+}
+
+.detail-form {
+  position: relative;
+  display: inline-block;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: row;
+
+  @media ($maxWidthLS) {
+    flex-direction: column;
+  }
+}
+
+.detail-column {
+  display: flex;
+  flex-direction: column;
+
+  form {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;  
+
+    @media ($maxWidthLS) {
+      width: 100%;
+    }
+  }
+}
+
+.detail-cover {
+  box-sizing: border-box;
+  min-width: 320px;
+  max-width: 320px;
+  max-height: 480px;
+  padding: 5px;
+  text-align: center;
+
+  @media ($maxWidthLS) {
+    width: 100%;
+  }
+
+  img {
+    max-width: 310px;
+    max-height: 470px;
+
+    @media ($maxWidthLS) {
+      width: 100%;
+    }
+  }
+}
+
+.detail-avatar {
+  box-sizing: border-box;
+  min-width: 320px;
+  max-width: 320px;
+  max-height: 120px;
+  padding: 5px;
+  text-align: center;
+
+  img {
+    max-width: 310px;
+    max-height: 110px;
+  }
+}
+
+.detail-action {
+  padding: 20px 0;
+  max-width: 640px;
+  text-align: center;
+
+  button {
+    height: 36px;
+    margin: 0 5px;
+  }
+}
