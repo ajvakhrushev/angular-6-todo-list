@@ -1,12 +1,14 @@
 {
   "en": {
-    "title": "Webpage title",
+    "title": "Angular 6 todo list application",
     "language": "Language",
-    "footerInfo": "Some information",
+    "ru": "Русский",
+    "en": "English",
     "author": "Andrey Vakhrushev",
     "listFilterSearchPlaceholder": "search",
     "listFilterGenrePlaceholder": "genre",
     "listFilterCategoryPlaceholder": "category",
+    "itemsPerPageLabel": "Items per page:",
     "detailCoverPlaceholder": "cover",
     "detailNamePlaceholder": "name",
     "detailAuthorNamePlaceholder": "author name",
@@ -19,16 +21,23 @@
     "tableCellGenreName": "Genre",
     "tableCellGenreCategory": "Category",
     "tableCellPublished": "Published",
-    "tableCellLikes": "Likes"
+    "tableCellLikes": "Likes",
+    "detailActionResetButton": "Reset",
+    "detailActionUpdateButton": "Update",
+    "detailActionCreateButton": "Create",
+    "detailActionCancelButton": "Cancel"
   },
   "ru": {
-    "title": "Заголовок веб-страницы",
+    "title": "Angular 6 todo list application",
     "language": "Язык",
+    "ru": "Русский",
+    "en": "English",
     "footerInfo": "Некоторая информация",
     "author": "Андрей Вахрушев",
     "listFilterSearchPlaceholder": "поиск",
     "listFilterGenrePlaceholder": "жанр",
     "listFilterCategoryPlaceholder": "категория",
+    "itemsPerPageLabel": "Строк на странице:",
     "detailCoverPlaceholder": "обложка",
     "detailNamePlaceholder": "название",
     "detailAuthorNamePlaceholder": "имя автора",
@@ -41,6 +50,10 @@
     "tableCellGenreName": "Жанр",
     "tableCellGenreCategory": "Категория",
     "tableCellPublished": "Опубликована",
-    "tableCellLikes": "Лайки"
+    "tableCellLikes": "Лайки",
+    "detailActionResetButton": "Сбросить",
+    "detailActionUpdateButton": "Обновить",
+    "detailActionCreateButton": "Создать",
+    "detailActionCancelButton": "Отменить"
   }
 }

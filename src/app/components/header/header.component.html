@@ -1,19 +1,20 @@
 <mat-toolbar>  
   <mat-toolbar-row>
-    <span>{{'title' | translate}}</span>
-  </mat-toolbar-row>
-  <mat-form-field>
-    <mat-select
-      placeholder="{{'language' | translate}}"
-      [value]="lang"
-      (change)="onLanguageChanged($event)"
-    >
-      <mat-option
-        *ngFor="let next of languages"
-        [value]="next"
+    <span class="header-title">{{'title' | translate}}</span>
+    <span class="fill-remaining-space"></span>
+    <span class="header-language-label">{{'language' | translate}}</span>
+    <mat-form-field class="header-language-switcher">
+      <mat-select
+        [value]="lang"
+        (selectionChange)="onLanguageChanged($event)"
       >
-        {{next}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+        <mat-option
+          *ngFor="let next of languages"
+          [value]="next"
+        >
+          {{ next }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-toolbar-row>
 </mat-toolbar>

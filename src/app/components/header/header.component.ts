@@ -1,4 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatSelectChange } from '@angular/material';
+
+import { TranslationHashList } from 'src/app/models';
+
 import { TranslationService } from 'src/app/services';
 
 @Component({
@@ -14,13 +18,10 @@ export class HeaderComponent implements OnInit {
   constructor(
     private translationService: TranslationService
   ) {
-    this.translationService.$languages.subscribe((list: string[]) => this.languages = list || []);
-    this.translationService.$lang.subscribe((value: string) => {
-      if (!value || this.lang === value) {
-        return;
-      }
+    this.lang = this.translationService.getLanguage();
 
-      this.lang = value;
+    this.translationService.getTranslations().subscribe((data: TranslationHashList) => {
+      this.languages = Object.keys(data);
     });
   }
 
@@ -28,8 +29,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnDestroy() {}
 
-  onLanguageChanged() {
-    this.translationService.$lang.next(this.lang);
+  onLanguageChanged(event: MatSelectChange) {
+    this.translationService.setLanguage(event.value);
   }
 
 }

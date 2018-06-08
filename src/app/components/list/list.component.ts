@@ -12,6 +12,8 @@ import { Book, BookFilter, Page } from 'src/app/models';
 
 import { ListService } from 'src/app/services';
 
+import { TranslatePipe } from 'src/app/pipes';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -25,6 +27,7 @@ export class ListComponent implements OnInit {
   isRateLimitReached = false;
   filter: BookFilter = <BookFilter>{};
   onListChangesSubscription: Subscription;
+  pageSize: number;
   pageSizeOptions: number[];
 
   @ViewChild(MatTable) table: MatTable<any>;
@@ -33,9 +36,11 @@ export class ListComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private translatePipe: TranslatePipe,
     private listService: ListService
   ) {
     this.pageSizeOptions = cloneDeep(this.listService.pageSizeOptions);
+    this.pageSize = this.listService.pageSize;
 
     this.refresh = this.refresh.bind(this);
     this.onGetDataSuccess = this.onGetDataSuccess.bind(this);
@@ -43,6 +48,8 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.paginator._intl.itemsPerPageLabel = this.translatePipe.transform('itemsPerPageLabel');
+
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.listService.$filter.subscribe((data: BookFilter) => {
       this.filter = data;
@@ -96,7 +103,6 @@ export class ListComponent implements OnInit {
     this.isLoading = false;
     this.resultsLength = 0;
     this.data = [];
-    console.log(error);
   }
 
 }

@@ -18,6 +18,7 @@ export class ListService {
 
   $filter: Subject<BookFilter> = new Subject<BookFilter>();
   pageSizeOptions: number[] = [5, 10, 25, 50];
+  pageSize: number = 25;
   defaultOrderActive: string = 'published';
   defaultOrderDirection: string = 'asc';
 
@@ -82,12 +83,12 @@ export class ListService {
   getPage(paginator: MatPaginator, filter: BookFilter, order: MatSort): Observable<Page> {
     return this.fetch()
                .map((list: Book[]) => {
-                 const pageSize = paginator.pageSize ? paginator.pageSize : this.pageSizeOptions[0];
+                 const pageSize = paginator.pageSize ? paginator.pageSize : this.pageSize;
                  const offset = paginator.pageIndex * pageSize;
                  const nextList = (list || []).filter(this.onFilterData(filter));
 
                  nextList.sort(this.onSortData(order));
-
+console.log(nextList);
                  return {
                    list: nextList.slice(offset, offset + pageSize),
                    size: nextList.length
@@ -158,7 +159,7 @@ export class ListService {
       }
 
       if (!next.timestamp) {
-        prev.timestamp = moment(next.published).valueOf();
+        next.timestamp = moment(next.published).valueOf();
       }
 
       if (prev.timestamp === next.timestamp) {

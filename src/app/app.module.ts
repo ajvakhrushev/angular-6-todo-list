@@ -73,6 +73,7 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatToolbarModule,
     MatSelectModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
@@ -82,7 +83,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     TranslationService,
-    ListService
+    ListService,
+    TranslatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -1,92 +1,145 @@
-<form [formGroup]="formGroup">
-  <div class="detail-column">
-    <mat-form-field>
-      <input
-        name="cover"
-        matInput
-        placeholder="{{'detailCoverPlaceholder' | translate}}"
-      >
-    </mat-form-field>
-    <div class="detail-cover">
-      <img src="{{coverControl.value}}" alt="{{nameControl.value}}">
+<form [formGroup]="formGroup" class="detail-form">
+  <div
+    *ngIf="isLoading"
+    class="loading-layer"
+  >
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+  <div class="detail-row">
+    <div class="detail-column">
+      <mat-form-field>
+        <input
+          formControlName="cover"
+          matInput
+          placeholder="{{'detailCoverPlaceholder' | translate}}"
+        >
+        <mat-error *ngIf="coverControl.hasError('url')">
+          String should be URL
+        </mat-error>
+      </mat-form-field>
+      <div class="detail-cover" [hidden]="!coverControl.value || coverControl.hasError('url')">
+        <img src="{{coverControl.value}}" alt="{{nameControl.value}}">
+      </div>
+    </div>
+    <div class="detail-column">
+      <mat-form-field>
+        <input
+          formControlName="name"
+          matInput
+          placeholder="{{'detailNamePlaceholder' | translate}}"
+        >
+        <mat-error *ngIf="formGroup.controls.name.hasError('required')">
+          Required
+        </mat-error>
+      </mat-form-field>
+      <form [formGroup]="genreForm">
+        <mat-form-field>
+          <mat-select
+            formControlName="name"
+            placeholder="{{'listFilterGenrePlaceholder' | translate}}"
+          >
+            <mat-option
+              *ngFor="let next of genres"
+              [value]="next.value"
+            >
+              {{next.title}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="genreForm.controls.name.hasError('required')">
+            Required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select
+            formControlName="category"
+            placeholder="{{'listFilterCategoryPlaceholder' | translate}}"
+          >
+            <mat-option
+              *ngFor="let next of categories"
+              [value]="next.value"
+            >
+              {{next.title}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="genreForm.controls.category.hasError('required')">
+            Required
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <form [formGroup]="authorForm">
+        <mat-form-field>
+          <input
+            formControlName="name"
+            matInput
+            placeholder="{{'detailAuthorNamePlaceholder' | translate}}"
+          >
+          <mat-error *ngIf="authorForm.controls.name.hasError('required')">
+            Required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            formControlName="avatar"
+            matInput
+            placeholder="{{'detailAuthorAvatarPlaceholder' | translate}}"
+          >
+          <mat-error *ngIf="authorAvatarControl.hasError('url')">
+            String should be URL
+          </mat-error>
+        </mat-form-field>
+        <div class="detail-avatar" [hidden]="!authorAvatarControl.value || authorAvatarControl.hasError('url')">
+          <img src="{{authorAvatarControl.value}}" alt="{{authorNameControl.value}}">
+        </div>
+      </form>
+      <mat-form-field>
+        <input
+          formControlName="published"
+          matInput
+          placeholder="{{'detailPublishedPlaceholder' | translate}}"
+          [matDatepicker]="publishedDate"
+          [max]="maxDate"
+        >
+        <mat-datepicker-toggle matSuffix [for]="publishedDate"></mat-datepicker-toggle>
+        <mat-datepicker #publishedDate></mat-datepicker>
+        <mat-error *ngIf="formGroup.controls.published.hasError('required')">
+          Required
+        </mat-error>
+      </mat-form-field>
     </div>
   </div>
   <div class="detail-column">
-    <mat-form-field>
-      <input
-        name="name"
-        matInput
-        placeholder="{{'detailNamePlaceholder' | translate}}"
-      >
-    </mat-form-field>
-    <form [formGroup]="genreForm">
-      <mat-form-field>
-        <mat-select
-          name="name"
-          placeholder="{{'listFilterGenrePlaceholder' | translate}}"
-        >
-          <mat-option
-            *ngFor="let next of genres"
-            [value]="next.value"
-          >
-            {{next.title}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-select
-          name="category"
-          placeholder="{{'listFilterCategoryPlaceholder' | translate}}"
-        >
-          <mat-option
-            *ngFor="let next of categories"
-            [value]="next.value"
-          >
-            {{next.title}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-    <form [formGroup]="authorForm">
-      <mat-form-field>
-        <input
-          name="name"
-          matInput
-          placeholder="{{'detailAuthorNamePlaceholder' | translate}}"
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <input
-          name="avatar"
-          matInput
-          placeholder="{{'detailAuthorAvatarPlaceholder' | translate}}"
-        >
-      </mat-form-field>
-    </form>
-    <mat-form-field>
-      <input
-        name="published"
-        matInput
-        placeholder="{{'detailPublishedPlaceholder' | translate}}"
-        [matDatepicker]="publishedDate"
-        [max]="maxDate"
-      >
-      <mat-datepicker-toggle matSuffix [for]="publishedDate"></mat-datepicker-toggle>
-      <mat-datepicker #publishedDate></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="textarea-field">
       <textarea
-        name="description"
+        formControlName="description"
         matInput
         placeholder="{{'detailDescriptionPlaceholder' | translate}}"
+        rows="5"
       ></textarea>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="textarea-field">
       <textarea
-        name="introduction"
+        formControlName="introduction"
         matInput
         placeholder="{{'detailIntroductionPlaceholder' | translate}}"
+        rows="5"
       ></textarea>
     </mat-form-field>
+  </div>
+  <div class="detail-action">
+    <button
+      mat-raised-button
+      (click)="onReset()"
+    >
+      {{ 'detailActionResetButton' | translate }}
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="formGroup.invalid"
+      (click)="onSubmit()"
+    >{{ strategy.submitTitle }}</button>
+    <button routerLink="/list" mat-raised-button color="accent">
+      {{ 'detailActionCancelButton' | translate }}
+    </button>
   </div>
 </form>

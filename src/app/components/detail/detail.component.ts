@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as _moment from 'moment';
+import * as moment from 'moment';
 const cloneDeep = require('lodash.clonedeep');
+const isEqual = require('lodash.isequal');
 
 import { Book, DetailStrategy, SelectOption, urlValidator } from 'src/app/models';
 
 import { ListService, GenreService } from 'src/app/services';
+
+import { TranslatePipe } from 'src/app/pipes';
 
 @Component({
   selector: 'app-detail',
@@ -15,7 +18,7 @@ import { ListService, GenreService } from 'src/app/services';
 })
 export class DetailComponent implements OnInit {
 
-  isLoading: boolean = false;
+  isLoading: boolean = true;
   item: Book;
   stableItem: Book;
   formGroup: FormGroup;
@@ -23,15 +26,18 @@ export class DetailComponent implements OnInit {
   genreForm: FormGroup;
   nameControl: FormControl;
   coverControl: FormControl;
+  authorNameControl: FormControl;
   authorAvatarControl: FormControl;
   genres: SelectOption[] = [];
   categories: SelectOption[] = [];
+  maxDate: Date = new Date();
   strategy: any;
   strategies = [
     {
       key: 'create',
+      submitTitle: null,
       init: (id: string) => {
-        this.item = {
+        this.mapData({
           id: null,
           name: null,
           genre: {
@@ -39,38 +45,40 @@ export class DetailComponent implements OnInit {
             category: null
           },
           author: {
-            name: null
+            name: null,
+            avatar: null
           },
-          published: null
-        };
-
-        this.isLoading = false;
+          published: null,
+          likes: 0
+        });
       },
       submit: (data: Book) => {
         if (!data) {
           this.isLoading = false;
+
           return;
         }
 
         this.listService.create(data).subscribe((nextData: Book) => {
-          this.strategy = this.strategies.find((next: DetailStrategy) => next.key === 'update');
-
-          this.mapData(nextData);
+          this.router.navigate(['detail', data.id]);
         });
-      },
+      }
     },
     {
       key: 'update',
+      submitTitle: null,
       init: (id: string) => {
         this.listService.read(id).subscribe(this.mapData);
       },
       submit: (data: Book) => {
-        if (!data) {
+        if (!data || isEqual(data, this.item)) {
+          this.isLoading = false;
+
           return;
         }
 
         this.listService.update(data).subscribe(this.mapData);
-      },
+      }
     }
   ];
 
@@ -78,14 +86,16 @@ export class DetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private listService: ListService,
-    private genreService: GenreService
+    private genreService: GenreService,
+    private translatePipe: TranslatePipe
   ) {
     this.nameControl = new FormControl('', [Validators.required]);
     this.coverControl = new FormControl(null, [urlValidator]);
+    this.authorNameControl = new FormControl(null, [Validators.required]);
     this.authorAvatarControl = new FormControl(null, [urlValidator]);
 
     this.authorForm = new FormGroup ({
-      name: new FormControl(null, [Validators.required]),
+      name: this.authorNameControl,
       avatar: this.authorAvatarControl
     });
 
@@ -98,11 +108,19 @@ export class DetailComponent implements OnInit {
       name: this.nameControl,
       genre: this.genreForm,
       author: this.authorForm,
-      published: new FormControl(null),
+      published: new FormControl(null, [Validators.required]),
       cover: this.coverControl,
       description: new FormControl(null),
       introduction: new FormControl(null)
     });
+
+    const updateStategy = this.strategies.find((next: DetailStrategy) => next.key === 'update');
+
+    updateStategy.submitTitle = this.translatePipe.transform('detailActionUpdateButton');
+
+    const createStategy = this.strategies.find((next: DetailStrategy) => next.key === 'create');
+
+    createStategy.submitTitle = this.translatePipe.transform('detailActionCreateButton');
 
     this.mapData = this.mapData.bind(this);
     this.onCancel = this.onCancel.bind(this);
@@ -118,7 +136,7 @@ export class DetailComponent implements OnInit {
 
       switch(params.id) {
         case 'create':
-          strategy = 'create';
+          strategy = 'create'; break;
         default:
           strategy = 'update';
       }
@@ -163,9 +181,9 @@ export class DetailComponent implements OnInit {
         avatar: data.author.avatar
       },
       published: data.published,
-      cover: data.cover,
-      description: data.description,
-      introduction: data.introduction
+      cover: data.cover || null,
+      description: data.description || null,
+      introduction: data.introduction || null
     });
   }
 
@@ -180,9 +198,11 @@ export class DetailComponent implements OnInit {
   }
 
   onSubmit() {
+    const data: Book = Object.assign({}, this.item, this.formGroup.value);
+
     this.isLoading = true;
 
-    this.strategy.submit(this.item);
+    this.strategy.submit(data);
   }
 
 }

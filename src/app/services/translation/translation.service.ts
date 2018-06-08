@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { combineLatest } from 'rxjs';
 
 import { Storage, TranslationHash, TranslationHashList } from 'src/app/models';
 
@@ -15,24 +15,24 @@ export class TranslationService {
   private translations: TranslationHashList;
   private translation: TranslationHash;
 
-  $languages: Subject<string[]> = new Subject<string[]>();
-  $lang: Subject<string> = new Subject<string>();
-
   constructor() {
-    this.$lang.next(DEFAULT_LANG);
+    combineLatest(Storage.getItem('lang'), this.getTranslations()).subscribe(([value, data]) => {
+      const lang = value || DEFAULT_LANG;
 
-    this.getTranslations().subscribe((data: TranslationHashList) => {
+      this.lang = lang;
       this.translations = data || {};
       this.translation = this.translations[this.lang] || null;
+
+      if (!value) {
+        Storage.setItem('lang', DEFAULT_LANG).subscribe();
+      }
     });
   }
 
   setLanguage(value: string) {
-    const lang = value || DEFAULT_LANG;
-
-    this.lang = lang;
-    this.translation = this.translations[this.lang] || null;
-    this.$lang.next(lang);
+    Storage.setItem('lang', value || DEFAULT_LANG).subscribe((value: string) => {
+      window.location.reload();
+    });
   }
 
   getLanguage(): string {
