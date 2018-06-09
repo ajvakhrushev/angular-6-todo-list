@@ -121,6 +121,8 @@ export class DetailComponent implements OnInit {
     const createStategy = this.strategies.find((next: DetailStrategy) => next.key === 'create');
 
     createStategy.submitTitle = this.translatePipe.transform('detailActionCreateButton');
+    // default strategy
+    this.strategy = createStategy;
 
     this.mapData = this.mapData.bind(this);
     this.onCancel = this.onCancel.bind(this);

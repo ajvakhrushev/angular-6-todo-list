@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ListFilterComponent } from './list-filter.component';
+import { MaterialModule } from 'src/app/material.module';
+import { Storage } from 'src/app/models';
+import { TranslationService } from 'src/app/services';
+import { TranslatePipe } from 'src/app/pipes';
+
+import { ListFilterComponent } from 'src/app/components';
 
 describe('ListFilterComponent', () => {
   let component: ListFilterComponent;
@@ -8,7 +15,16 @@ describe('ListFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListFilterComponent ]
+      imports: [
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MaterialModule
+      ],
+      providers: [
+        TranslationService,
+        TranslatePipe
+      ],
+      declarations: [ ListFilterComponent, TranslatePipe ]
     })
     .compileComponents();
   }));

@@ -1,54 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { NgModule, PLATFORM_ID, Inject } from '@angular/core';
+import { APP_BASE_HREF, isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
-import {
-  MatToolbarModule,
-  MatInputModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatCheckboxModule,
-  MatProgressSpinnerModule,
-  MatTableModule,
-  MatPaginatorModule,
-  MatDatepickerModule,
-  MatSortModule,
-  MatIconModule
-} from '@angular/material';
+import { RouterModule } from 'src/app/router.module';
+import { MaterialModule } from 'src/app/material.module';
 
 import { AppComponent } from 'src/app/app.component';
 import {
   PageNotFoundComponent,
   HeaderComponent,
   ListComponent,
-  ListItemComponent,
   ListFilterComponent,
   ListPageComponent,
   DetailComponent
 } from 'src/app/components';
 
-import {
-  Storage
-} from 'src/app/models';
+import { Storage } from 'src/app/models';
 
-import {
-  TranslationService,
-  ListService
-} from 'src/app/services';
+import { TranslationService, ListService, GenreService } from 'src/app/services';
 
 import { TranslatePipe } from 'src/app/pipes';
-// import { SomeDirective } from 'src/app/directives';
-
-const appRoutes: Routes = [
-  { path: 'list', component: ListPageComponent },
-  { path: 'detail/:id', component: DetailComponent },
-  { path: '', redirectTo: '/list', pathMatch: 'full'},
-  { path: '**', component: PageNotFoundComponent }
-];
 
 @NgModule({
   declarations: [
@@ -56,7 +29,6 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     HeaderComponent,
     ListComponent,
-    ListItemComponent,
     ListFilterComponent,
     DetailComponent,
     TranslatePipe,
@@ -66,47 +38,51 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes),
-    MatMomentDateModule,
-    MatDatepickerModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
-    MatIconModule
+    RouterModule,
+    MaterialModule
   ],
   providers: [
+    {provide: APP_BASE_HREF, useValue : '/' },
     TranslationService,
     ListService,
+    GenreService,
     TranslatePipe
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
 
-function initializeData() {
-  const keys: string[] = ['translations', 'list', 'genres', 'categories'];
-  let storage = 'offline';
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {
+    let storage: string; 
 
-  if (typeof window !== 'undefined' && ('localStorage' in window) && (localStorage !== undefined) && (localStorage !== null)) {
-    storage = 'localStorage';
+    if (isPlatformBrowser(this.platformId)) {
+      storage = 'localStorage';
+    } else if (isPlatformServer(this.platformId)) {
+      storage = 'offline';
+    }
+
+    this.initializeData(storage);
   }
 
-  Storage.setStorage(storage);
+  initializeData(storageType: string) {
+    if (!storageType) {
+      return;
+    }
 
-  keys.forEach((next: string) => {
-    Storage.getItem(next).subscribe((data: any) => {
-      if (data !== null) {
-        return;
-      }
+    const keys: string[] = ['translations', 'list', 'genres', 'categories'];
 
-      Storage.setItem(next, require(`src/assets/fixture/${next}.json`));
+    Storage.setStorage(storageType);
+
+    keys.forEach((next: string) => {
+      Storage.getItem(next).subscribe((data: any) => {
+        if (data !== null) {
+          return;
+        }
+
+        Storage.setItem(next, require(`src/assets/fixture/${next}.json`));
+      });
     });
-  });
+  }
 }
-
-initializeData();

@@ -1,4 +1,5 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { Injectable, Inject, ApplicationRef, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 import { combineLatest } from 'rxjs';
 
@@ -15,7 +16,9 @@ export class TranslationService {
   private translations: TranslationHashList;
   private translation: TranslationHash;
 
-  constructor() {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {
     combineLatest(Storage.getItem('lang'), this.getTranslations()).subscribe(([value, data]) => {
       const lang = value || DEFAULT_LANG;
 
@@ -31,7 +34,9 @@ export class TranslationService {
 
   setLanguage(value: string) {
     Storage.setItem('lang', value || DEFAULT_LANG).subscribe((value: string) => {
-      window.location.reload();
+      if (isPlatformBrowser(this.platformId)) {
+        window.location.reload();
+      }
     });
   }
 

@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PageNotFoundComponent } from './page-not-found.component';
+import { MaterialModule } from 'src/app/material.module';
+import { Storage } from 'src/app/models';
+import { TranslationService } from 'src/app/services';
+import { TranslatePipe } from 'src/app/pipes';
+
+import { PageNotFoundComponent } from 'src/app/components';
 
 describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
@@ -8,7 +14,15 @@ describe('PageNotFoundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageNotFoundComponent ]
+      imports: [
+        BrowserAnimationsModule,
+        MaterialModule
+      ],
+      providers: [
+        TranslationService,
+        TranslatePipe
+      ],
+      declarations: [ PageNotFoundComponent, TranslatePipe ]
     })
     .compileComponents();
   }));
