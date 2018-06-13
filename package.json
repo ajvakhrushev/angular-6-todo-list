@@ -8,9 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
+    "build:ssr": "yarn build:client-and-server-bundles && yarn webpack:server",
     "serve:ssr": "node dist/server",
-    "deploy": "npm run build:ssr && npm run serve:ssr",
+    "deploy": "yarn build:ssr && yarn serve:ssr",
     "build:client-and-server-bundles": "ng build --aot --prod && ng run crud-angular:server",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
