@@ -2,7 +2,7 @@
   "name": "angular-6-todo-list",
   "version": "0.0.0",
   "scripts": {
-    "start": "node dist/server",
+    "start": "node dist/server"
   },
   "private": true
 }
