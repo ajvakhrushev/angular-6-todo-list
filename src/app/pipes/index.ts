@@ -1,1 +1,0 @@
-export * from 'src/app/pipes/translate/translate.pipe';
