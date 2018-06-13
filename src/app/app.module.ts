@@ -36,6 +36,9 @@ import { TranslatePipe } from 'src/app/pipes';
   ],
   imports: [
     BrowserModule,
+    BrowserModule.withServerTransition({
+      appId: 'crud-angular'
+    }),
     BrowserAnimationsModule,
     ReactiveFormsModule,
     RouterModule,
@@ -50,6 +53,7 @@ import { TranslatePipe } from 'src/app/pipes';
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 
   constructor(
